@@ -1,14 +1,15 @@
 const itemsPerPage = 9;
 let currentPage = 1;
 
-function showPage(list, page) {
-   const maxItems = (page * itemsPerPage <= list.length) ? page * itemsPerPage : list.length;
 
-   const startIndex = maxItems - itemsPerPage;
-   const endIndex = maxItems;
+
+function showPage(list, page) {
+   
+   const startIndex = page * itemsPerPage - itemsPerPage;
+   const endIndex = (page * itemsPerPage <= list.length) ? page * itemsPerPage : list.length;
    const studentListUL = document.querySelector('.student-list');
    studentListUL.innerHTML = '';
-
+   
    for (let i=startIndex; i<endIndex; i++) {
       
       const student = {};
