@@ -47,6 +47,9 @@ function addPagination(list) {
       linkListUL.insertAdjacentHTML('beforeend', linkListLI);
    }
 
+   const activeButton = linkListUL.childNodes[0].getElementsByTagName('button')[0];
+   highlightButton(activeButton);
+
    activatePagination(linkListUL, numberOfButtons);
 }
 
@@ -56,11 +59,23 @@ function activatePagination(linkListUL, numberOfButtons) {
       linkListLIs[i].addEventListener('click', (e) => {
          const buttonNum = e.target.innerHTML;
          showPage(data, buttonNum);
+         
+         removeNavHighlights();
+         
+         const activeButton = linkListLIs[i].getElementsByTagName('button')[0];
+         highlightButton(activeButton);
       })
    }
 }
 
+function highlightButton(activeButton) {
+   activeButton.className = 'active';
+}
 
+function removeNavHighlights() {
+   const previousActive = document.querySelector('.active');
+   previousActive.classList.remove('active');
+}
 
 showPage(data, currentPage);
 addPagination(data);
