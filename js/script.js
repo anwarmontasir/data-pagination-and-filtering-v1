@@ -2,8 +2,10 @@ const itemsPerPage = 9;
 let currentPage = 1;
 
 function showPage(list, page) {
-   const startIndex = page * itemsPerPage - itemsPerPage;
-   const endIndex = page * itemsPerPage;
+   const maxItems = (page * itemsPerPage <= list.length) ? page * itemsPerPage : list.length;
+
+   const startIndex = maxItems - itemsPerPage;
+   const endIndex = maxItems;
    const studentListUL = document.querySelector('.student-list');
    studentListUL.innerHTML = '';
 
@@ -44,7 +46,21 @@ function addPagination(list) {
 
       linkListUL.insertAdjacentHTML('beforeend', linkListLI);
    }
+
+   activatePagination(linkListUL, numberOfButtons);
 }
+
+function activatePagination(linkListUL, numberOfButtons) {
+   const linkListLIs = linkListUL.childNodes;
+   for (let i=0; i<numberOfButtons; i++) {
+      linkListLIs[i].addEventListener('click', (e) => {
+         const buttonNum = e.target.innerHTML;
+         showPage(data, buttonNum);
+      })
+   }
+}
+
+
 
 showPage(data, currentPage);
 addPagination(data);
