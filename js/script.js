@@ -31,6 +31,20 @@ function showPage(list, page) {
    }
 }
 
+function addPagination(list) {
+   const numberOfButtons = Math.ceil(list.length / itemsPerPage);
+   const linkListUL = document.querySelector('.link-list');
+   linkListUL.innerHTML = '';
 
+   for (let i=1; i<=numberOfButtons; i++) {
+      const linkListLI = 
+      `<li>
+         <button type="button">${i}</button>
+      </li>`;
+
+      linkListUL.insertAdjacentHTML('beforeend', linkListLI);
+   }
+}
 
 showPage(data, currentPage);
+addPagination(data);
