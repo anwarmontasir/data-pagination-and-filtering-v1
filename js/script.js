@@ -130,12 +130,27 @@ function activateSearch(list) {
 
 function searchList(list, searchTerm) {
    const filteredList = filterList(list, searchTerm);
-   showPage(filteredList, 1);
-   addPagination(filteredList);
+   if (filteredList.length > 0) {
+      showPage(filteredList, 1);
+      addPagination(filteredList);
+   } else {
+      noResults(searchTerm);
+   }
 }
 
 function filterList(list, searchTerm) {
    return list.filter(listItem => listItem.name.first.toLowerCase().includes(searchTerm.toLowerCase()) || listItem.name.last.toLowerCase().includes(searchTerm.toLowerCase()));
+}
+
+function noResults(searchTerm) {
+   /* select linkListUL */
+   const linkListUL = document.querySelector('.link-list');
+   /* clear old contents */
+   linkListUL.innerHTML = '';
+   /* select studentListUL */
+   const studentListUL = document.querySelector('.student-list');
+   /* clear old contents */
+   studentListUL.innerHTML = `<li>No results found for “${searchTerm}”</li>`;
 }
 
 addSearch();
