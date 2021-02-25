@@ -1,24 +1,28 @@
+/* 9 items per page */
 const itemsPerPage = 9;
+/* start on page 1 */
 let currentPage = 1;
 
-
-
+/* showPage function */
 function showPage(list, page) {
-   
+   /* where to start counting */
    const startIndex = page * itemsPerPage - itemsPerPage;
+   /* where to end counting. ternary is used to stop counting at the end of the list */
    const endIndex = (page * itemsPerPage <= list.length) ? page * itemsPerPage : list.length;
+   /* select ul */
    const studentListUL = document.querySelector('.student-list');
+   /* clear old contents */
    studentListUL.innerHTML = '';
-   
+   /* loop */
    for (let i=startIndex; i<endIndex; i++) {
-      
+      /* create student object for storing name, email, date, photo */
       const student = {};
       student.name = `${list[i].name.first} ${list[i].name.last}`;
       student.email = list[i].email;
       student.registeredDate = list[i].registered.date;
       student.photo = list[i].picture.large;
-
-     const studentListLI = 
+      /* create HTML for displaying student */
+      const studentListLI = 
       `<li class="student-item cf">
          <div class="student-details">
            <img class="avatar" src="${student.photo}" alt="${student.name} Profile Picture">
@@ -29,54 +33,74 @@ function showPage(list, page) {
            <span class="date">Joined ${student.registeredDate}</span>
          </div>
       </li>`;
-
+      /* insert li at the end of the ul */
       studentListUL.insertAdjacentHTML('beforeend', studentListLI);
    }
 }
 
+/* addPagination function */
 function addPagination(list) {
+   /* how many buttons needed? */
    const numberOfButtons = Math.ceil(list.length / itemsPerPage);
+   /* select ul */
    const linkListUL = document.querySelector('.link-list');
+   /* clear old contents */
    linkListUL.innerHTML = '';
-
+   /* loop */
    for (let i=1; i<=numberOfButtons; i++) {
+      /* create HTML for displaying buttons */
       const linkListLI = 
       `<li>
          <button type="button">${i}</button>
       </li>`;
-
+      /* insert li at the end of the ul */
       linkListUL.insertAdjacentHTML('beforeend', linkListLI);
    }
-
+   /* select first button */
    const activeButton = linkListUL.childNodes[0].getElementsByTagName('button')[0];
+   /* highlight active button */
    highlightButton(activeButton);
-
+   /* make pagination clickable */
    activatePagination(linkListUL, numberOfButtons);
 }
 
+/* activatePagination function */
 function activatePagination(linkListUL, numberOfButtons) {
+   /* select array of li elements */
    const linkListLIs = linkListUL.childNodes;
+   /* loop */
    for (let i=0; i<numberOfButtons; i++) {
+      /* add click listener */
       linkListLIs[i].addEventListener('click', (e) => {
+         /* find page number by reading innerHTML */
          const buttonNum = e.target.innerHTML;
+         /* show page corresponding to button number */
          showPage(data, buttonNum);
-         
+         /* clear 'active' class from pagination */
          removeNavHighlights();
-         
+         /* select clicked button */
          const activeButton = linkListLIs[i].getElementsByTagName('button')[0];
+         /* highlight active button */
          highlightButton(activeButton);
       })
    }
 }
 
+/* highlightButton function */
 function highlightButton(activeButton) {
+   /* add 'active' class to current button */
    activeButton.className = 'active';
 }
 
+/* removeNavHighlights function */
 function removeNavHighlights() {
+   /* select 'active' class */
    const previousActive = document.querySelector('.active');
+   /* remove 'active' class */
    previousActive.classList.remove('active');
 }
 
+/* call showPage */
 showPage(data, currentPage);
+/* call addPagination */
 addPagination(data);
