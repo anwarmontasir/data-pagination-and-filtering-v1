@@ -103,45 +103,59 @@ showPage(data, 1);
 /* call addPagination */
 addPagination(data);
 
-/* search.js */
+/* addSearch function */
 function addSearch() {
+   /* create search bar HTML */
    const searchBar = 
    `<label for="search" class="student-search">
       <input id="search" placeholder="Search by name...">
       <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
     </label>`;
+    /* select header */
    const header = document.querySelector('header');
+   /* add search bar to header */
    header.insertAdjacentHTML('beforeend', searchBar);
 }
 
+/* activateSearch function */
 function activateSearch(list) {
+   /* select search bar */
    const search = document.querySelector('#search');
-   const submit = document.querySelector('.student-search button');
+   /* add search bar keyup listener */
+   search.addEventListener('keyup', () => {
+      searchList(list, search.value);
+   });
 
+   /* select submit button */
+   const submit = document.querySelector('.student-search button');
+   /* add submit listener */
    submit.addEventListener('click', (e) => {
       e.preventDefault();
       searchList(list, search.value,);
    });
-
-   search.addEventListener('keyup', () => {
-      searchList(list, search.value);
-    });
 }
 
+/* searchList function */
 function searchList(list, searchTerm) {
+   /* filter list of students */
    const filteredList = filterList(list, searchTerm);
+   /* if filtered list has at least one student, update page */
    if (filteredList.length > 0) {
       showPage(filteredList, 1);
       addPagination(filteredList);
    } else {
+      /* if zero results, display message on screen */
       noResults(searchTerm);
    }
 }
 
+/* filterList function */
 function filterList(list, searchTerm) {
+   /* return array of matches for first name or last name. Ignore case when searching */
    return list.filter(listItem => listItem.name.first.toLowerCase().includes(searchTerm.toLowerCase()) || listItem.name.last.toLowerCase().includes(searchTerm.toLowerCase()));
 }
 
+/* noResults function */
 function noResults(searchTerm) {
    /* select linkListUL */
    const linkListUL = document.querySelector('.link-list');
@@ -149,9 +163,11 @@ function noResults(searchTerm) {
    linkListUL.innerHTML = '';
    /* select studentListUL */
    const studentListUL = document.querySelector('.student-list');
-   /* clear old contents */
+   /* update studentListUL with 'no results' message */
    studentListUL.innerHTML = `<li>No results found for “${searchTerm}”</li>`;
 }
 
+/* add search bar to DOM */
 addSearch();
+/* activate search listeners */
 activateSearch(data);
