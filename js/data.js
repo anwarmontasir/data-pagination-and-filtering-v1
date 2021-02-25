@@ -7,6 +7,23 @@ FSJS Project 2 - Data Pagination and Filtering
 const data = [
   {
     name: {
+      title: "Mr",
+      first: "Bootsy",
+      last: "Collins"
+    },
+    email: "bootzilla@example.com",
+    registered: {
+      date: "02-25-2021",
+      age: 69
+    },
+    picture: {
+      large: "https://bookingagentinfo.com/wp-content/uploads/2017/10/Bootsy-Collins-Contact-Information.jpg",
+      medium: "https://bookingagentinfo.com/wp-content/uploads/2017/10/Bootsy-Collins-Contact-Information.jpg",
+      thumbnail: "https://bookingagentinfo.com/wp-content/uploads/2017/10/Bootsy-Collins-Contact-Information.jpg"
+    }
+  },
+  {
+    name: {
       title: "Miss",
       first: "Ethel",
       last: "Dean",
