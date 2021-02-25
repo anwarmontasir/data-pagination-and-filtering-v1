@@ -1,7 +1,5 @@
 /* 9 items per page */
 const itemsPerPage = 9;
-/* start on page 1 */
-let currentPage = 1;
 
 /* showPage function */
 function showPage(list, page) {
@@ -61,11 +59,11 @@ function addPagination(list) {
    /* highlight active button */
    highlightButton(activeButton);
    /* make pagination clickable */
-   activatePagination(linkListUL, numberOfButtons);
+   activatePagination(list, linkListUL, numberOfButtons);
 }
 
 /* activatePagination function */
-function activatePagination(linkListUL, numberOfButtons) {
+function activatePagination(list, linkListUL, numberOfButtons) {
    /* select array of li elements */
    const linkListLIs = linkListUL.childNodes;
    /* loop */
@@ -75,7 +73,7 @@ function activatePagination(linkListUL, numberOfButtons) {
          /* find page number by reading innerHTML */
          const buttonNum = e.target.innerHTML;
          /* show page corresponding to button number */
-         showPage(data, buttonNum);
+         showPage(list, buttonNum);
          /* clear 'active' class from pagination */
          removeNavHighlights();
          /* select clicked button */
@@ -100,8 +98,8 @@ function removeNavHighlights() {
    previousActive.classList.remove('active');
 }
 
-/* call showPage */
-showPage(data, currentPage);
+/* call showPage starting with page 1 */
+showPage(data, 1);
 /* call addPagination */
 addPagination(data);
 
@@ -116,4 +114,29 @@ function addSearch() {
    header.insertAdjacentHTML('beforeend', searchBar);
 }
 
+function activateSearch(list) {
+   const search = document.querySelector('#search');
+   const submit = document.querySelector('.student-search button');
+
+   submit.addEventListener('click', (e) => {
+      e.preventDefault();
+      searchList(list, search.value,);
+   });
+
+   search.addEventListener('keyup', () => {
+      searchList(list, search.value);
+    });
+}
+
+function searchList(list, searchTerm) {
+   const filteredList = filterList(list, searchTerm);
+   showPage(filteredList, 1);
+   addPagination(filteredList);
+}
+
+function filterList(list, searchTerm) {
+   return list.filter(listItem => listItem.name.first.toLowerCase().includes(searchTerm.toLowerCase()) || listItem.name.last.toLowerCase().includes(searchTerm.toLowerCase()));
+}
+
 addSearch();
+activateSearch(data);
